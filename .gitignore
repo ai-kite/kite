@@ -1,0 +1,4 @@
+/target
+
+# Ignore config because it includes environment variables
+/.cargo/config.toml

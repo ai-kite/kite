@@ -1,0 +1,13 @@
+[package]
+name = "llm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest.workspace = true
+tokio.workspace = true
+serde_json.workspace = true
+
+google-generative-ai-rs = "0.3.4"
+
+common = { path = "../common" }

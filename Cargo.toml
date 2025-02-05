@@ -1,0 +1,36 @@
+[package]
+name = "kite"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[[bin]]
+bench = false
+path = "core/main.rs"
+name = "kite"
+
+[workspace]
+members = ["crates/*"]
+
+[dependencies]
+cereal = { path = "./crates/cereal" }
+common = { path = "./crates/common" }
+indexer = { path = "./crates/indexer" }
+llm = { path = "./crates/llm" }
+
+capnp.workspace = true
+reqwest.workspace = true
+tokio.workspace = true
+serde_json.workspace = true
+
+toml = "0.8.19"
+serde = "1.0"
+
+[workspace.dependencies]
+capnp = "0.20.3"
+reqwest = { version = "0.11", features = ["json"] }
+tokio = { version = "1.43.0", features = ["full"] }
+serde_json = "1.0"
+
+[build-dependencies]
+capnpc = "0.20"
