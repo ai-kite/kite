@@ -8,26 +8,44 @@
 
 mod error;
 mod vad;
+mod system;
 
-use error::*;
-use std::fs;
+use crate::error::*;
+use crate::system::prompt;
+
+use std::io::{self, Write};
 
 use indexer;
 use llm;
 
 fn main() -> Result<()> {
-    // if let Err(e) = indexer::run() {
-    //     eprintln!("{}", e);
-    //     return Err(Error::Indexer(e))
-    // };
 
-    let content = fs::read_to_string("core/kite.toml").expect("lmao");
-    if let Err(e) = llm::gemini_gen(content) {
-        eprintln!("{}", e);
-        return Err(Error::LLM(e));
+    loop {
+        print!("\nYou: ");
+
+        let _ = io::stdout().flush().unwrap();
+
+        let mut user_input = String::new();
+        if io::stdin().read_line(&mut user_input).is_err() {
+            eprintln!("Error reading input.");
+            continue;
+        }
+
+        let user_input = user_input.trim();
+        if user_input.eq_ignore_ascii_case("exit") {
+            println!("Exiting...");
+            break;
+        }
+
+        println!("\nwaiting for response...\n");
+
+        print!("kite: ");
+        if let Err(e) = llm::gemini_gen(prompt()?, user_input.to_string()) {
+            eprintln!("{}", e);
+            return Err(Error::LLM(e));
+        }
     }
 
-    // vad::calc_mood();
 
     Ok(())
 }

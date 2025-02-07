@@ -1,2 +1,2 @@
-pub mod openai_request_capnp;
+pub mod mood_capnp;
 pub mod utils;

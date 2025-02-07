@@ -3,6 +3,7 @@ use std::fmt::{self, Display};
 
 use indexer::error::Error as IndexerError;
 use llm::error::Error as LLMError;
+use toml::de::Error as TomlError;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -10,6 +11,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
     Indexer(IndexerError),
     LLM(LLMError),
+    TomlParse(TomlError),
 }
 
 impl Display for Error {
@@ -17,6 +19,7 @@ impl Display for Error {
         match self {
             Error::Indexer(err) => write!(f, "{err}"),
             Error::LLM(err) => write!(f, "{err}"),
+            Error::TomlParse(err) => write!(f, "{err}"),
         }
     }
 }
@@ -32,5 +35,11 @@ impl From<IndexerError> for Error {
 impl From<LLMError> for Error {
     fn from(err: LLMError) -> Self {
         Self::LLM(err)
+    }
+}
+
+impl From<TomlError> for Error {
+    fn from(err: TomlError) -> Self {
+        Self::TomlParse(err)
     }
 }
