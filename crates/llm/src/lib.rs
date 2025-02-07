@@ -85,7 +85,6 @@ pub async fn gemini_gen(system: String, text: String) -> Result<()> {
                     video_metadata: None,
                 }],
             },
-
             Content {
                 role: Role::User,
                 parts: vec![Part {
@@ -96,9 +95,9 @@ pub async fn gemini_gen(system: String, text: String) -> Result<()> {
                 }],
             },
         ],
-            tools: vec![],
-            safety_settings: vec![],
-            generation_config: None,
+        tools: vec![],
+        safety_settings: vec![],
+        generation_config: None,
     };
 
     let post_result = client.post(30, &txt_request).await?;
@@ -126,10 +125,8 @@ pub async fn arli_gen(system: String, user_input: String) -> Result<()> {
 
     let url = "https://api.arliai.com/v1/chat/completions";
     let client = Client::new();
-    
-    let mut messages = vec![
-        json!({"role": "system", "content": system}),
-    ];
+
+    let mut messages = vec![json!({"role": "system", "content": system})];
 
     messages.push(json!({"role": "user", "content": user_input}));
 
@@ -144,7 +141,8 @@ pub async fn arli_gen(system: String, user_input: String) -> Result<()> {
         "stream": false
     });
 
-    let response = client.post(url)
+    let response = client
+        .post(url)
         .header("Content-Type", "application/json")
         .header("Authorization", format!("Bearer {}", api_key))
         .json(&payload)
@@ -161,4 +159,3 @@ pub async fn arli_gen(system: String, user_input: String) -> Result<()> {
 
     Ok(())
 }
-

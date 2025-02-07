@@ -1,8 +1,8 @@
 use std::fs;
 
+use serde::Deserialize;
 use toml::from_str;
 use toml::Value;
-use serde::Deserialize;
 
 use crate::error::*;
 

@@ -7,8 +7,8 @@
 #![allow(unused)]
 
 mod error;
-mod vad;
 mod system;
+mod vad;
 
 use crate::error::*;
 use crate::system::prompt;
@@ -19,7 +19,6 @@ use indexer;
 use llm;
 
 fn main() -> Result<()> {
-
     loop {
         print!("\nYou: ");
 

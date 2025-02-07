@@ -3,8 +3,8 @@ use std::fs;
 use std::io::{BufReader, BufWriter};
 
 use cereal::mood_capnp;
-use cereal::utils::CapnpWrite;
 use cereal::utils::CapnpRead;
+use cereal::utils::CapnpWrite;
 
 
 #[derive(Debug, Deserialize)]
@@ -50,13 +50,19 @@ impl<'a> CapnpRead<'a> for Mood {
 }
 
 impl Mood {
-    fn new() -> Self { Self { valence: 0, arousal: 0, dominance: 0 } }
+    fn new() -> Self {
+        Self {
+            valence: 0,
+            arousal: 0,
+            dominance: 0,
+        }
+    }
 
     fn apply_interaction(&mut self, interaction_name: &str, effects: &InteractionEffects) {
         if let Some(interaction) = effects
             .interaction
-                .iter()
-                .find(|i| i.name == interaction_name)
+            .iter()
+            .find(|i| i.name == interaction_name)
         {
             self.valence = (self.valence + interaction.valence).clamp(-100, 100);
             self.arousal = (self.arousal + interaction.arousal).clamp(-100, 100);
@@ -67,12 +73,13 @@ impl Mood {
     fn save_to_file(&self, filename: &str) {
         let mut message = capnp::message::Builder::new_default();
         let mut mood_builder = message.init_root::<mood_capnp::mood::Builder>();
-        
+
         self.write_capnp(&mut mood_builder);
 
         let file = fs::File::create(filename).expect("Failed to create file");
         let mut writer = BufWriter::new(file);
-        capnp::serialize::write_message(&mut writer, &message).expect("Failed to write Cap'n Proto data");
+        capnp::serialize::write_message(&mut writer, &message)
+            .expect("Failed to write Cap'n Proto data");
     }
 
     fn load_from_file(filename: &str) -> Self {
@@ -81,7 +88,8 @@ impl Mood {
         let message_reader = capnp::serialize::read_message(&mut reader, Default::default())
             .expect("Failed to read Cap'n Proto data");
 
-        let mood_reader = message_reader.get_root::<mood_capnp::mood::Reader>()
+        let mood_reader = message_reader
+            .get_root::<mood_capnp::mood::Reader>()
             .expect("Failed to get root");
 
         Self::read_capnp(mood_reader)
