@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v2
+      - name: Run tests
+        run: cargo test --workspace --all-features --verbose
+
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rustfmt
+      - name: Rust fmt
+        run: cargo +nightly fmt -- --check
+
+      # - uses: dtolnay/rust-toolchain@stable
+      #   with:
+      #     components: clippy
+      # - name: Configure cache
+      #   uses: Swatinem/rust-cache@v2
+      # - name: Clippy
+      #   run: cargo clippy --workspace --all-features --all-targets
