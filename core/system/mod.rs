@@ -21,10 +21,10 @@ pub fn prompt() -> Result<String> {
     let adjectives = config.adjectives.join(", ");
     let style = config.style.join(" ");
 
-    // hardcode for now
+    // Whenever we call for mood, it should look at it and tell us
     let mood_description = "ecstatic and unstoppable";
 
-    // let mood_description = vad::describe_mood();
+    // let mood_description = mood::describe();
 
     Ok((format!(
         "You are {name}, an AI with the following personality traits: {adjectives}. \

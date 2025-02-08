@@ -11,20 +11,11 @@ use error::*;
 
 #[tokio::main]
 pub async fn run() -> Result<()> {
-    let gateway: String = match env::var("GATEWAY") {
-        Ok(v) => v,
-        Err(e) => return Err(Error::Env(e)),
-    };
+    let gateway: String = env::var("GATEWAY")?;
 
-    let address: String = match env::var("CONTRACT_ADDRESS") {
-        Ok(v) => v,
-        Err(e) => return Err(Error::Env(e)),
-    };
+    let address: String = env::var("CONTRACT_ADDRESS")?;
 
-    let c_deployed_at = match env::var_as::<u64>("CONTRACT_DEPLOYED_AT") {
-        Ok(v) => v,
-        Err(e) => return Err(Error::Env(e)),
-    };
+    let c_deployed_at = env::var_as::<u64>("CONTRACT_DEPLOYED_AT")?;
 
     let topic_transfer = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 

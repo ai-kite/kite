@@ -7,8 +7,8 @@
 #![allow(unused)]
 
 mod error;
+mod mood;
 mod system;
-mod vad;
 
 use crate::error::*;
 use crate::system::prompt;
@@ -39,12 +39,8 @@ fn main() -> Result<()> {
         println!("\nwaiting for response...\n");
 
         print!("kite: ");
-        if let Err(e) = llm::gemini_gen(prompt()?, user_input.to_string()) {
-            eprintln!("{}", e);
-            return Err(Error::LLM(e));
-        }
+        llm::gemini_gen(prompt()?, user_input.to_string())?
     }
-
 
     Ok(())
 }

@@ -22,10 +22,7 @@ use google_generative_ai_rs::v1::{
 
 #[tokio::main]
 pub async fn openai_gen(content: String) -> Result<()> {
-    let api_key: String = match env::var("OPENAI_API_KEY") {
-        Ok(v) => v,
-        Err(e) => return Err(Error::Env(e)),
-    };
+    let api_key: String = env::var("OPENAI_API_KEY")?;
 
     let payload = json!({
         "model": "gpt-3",
@@ -68,10 +65,7 @@ pub async fn openai_gen(content: String) -> Result<()> {
 
 #[tokio::main]
 pub async fn gemini_gen(system: String, text: String) -> Result<()> {
-    let api_key: String = match env::var("GOOGLE_GENERATIVE_AI_API_KEY") {
-        Ok(v) => v,
-        Err(e) => return Err(Error::Env(e)),
-    };
+    let api_key: String = env::var("GOOGLE_GENERATIVE_AI_API_KEY")?;
 
     let client = OtherClient::new(api_key);
     let txt_request = Request {
@@ -118,10 +112,7 @@ pub async fn gemini_gen(system: String, text: String) -> Result<()> {
 
 #[tokio::main]
 pub async fn arli_gen(system: String, user_input: String) -> Result<()> {
-    let api_key: String = match env::var("ARLIAI_API_KEY") {
-        Ok(v) => v,
-        Err(e) => return Err(Error::Env(e)),
-    };
+    let api_key: String = env::var("ARLIAI_API_KEY")?;
 
     let url = "https://api.arliai.com/v1/chat/completions";
     let client = Client::new();

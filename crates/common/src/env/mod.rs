@@ -4,19 +4,13 @@ use error::*;
 use std::{env, num::ParseIntError};
 
 pub fn var(key: &str) -> Result<String> {
-    match env::var(key) {
-        Ok(val) => Ok(val),
-        Err(err) => return Err(Error::Var(err)),
-    }
+    env::var(key).map_err(Error::Var)
 }
 
+// FIXME: Only accepts int
 pub fn var_as<T>(key: &str) -> Result<T>
 where
     T: std::str::FromStr<Err = ParseIntError>,
 {
-    let val = var(key)?;
-    match val.parse::<T>() {
-        Ok(v) => Ok(v),
-        Err(err) => return Err(Error::ParseInt(err)),
-    }
+    var(key)?.parse().map_err(Error::ParseInt)
 }
