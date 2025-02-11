@@ -4,3 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+serde.workspace = true
+serde-untagged = "0.1.6"

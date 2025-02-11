@@ -1,0 +1,17 @@
+[[event]]
+name = "buy_kite"
+valence = 8
+arousal = 7
+dominance = 5
+
+[[event]]
+name = "sell_kite"
+valence = -7
+arousal = -6
+dominance = -4
+
+[[event]]
+name = "ignore"
+valence = -6
+arousal = -5
+dominance = -4

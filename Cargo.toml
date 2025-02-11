@@ -21,16 +21,17 @@ llm = { path = "./crates/llm" }
 capnp.workspace = true
 reqwest.workspace = true
 tokio.workspace = true
+serde.workspace = true
 serde_json.workspace = true
 
 toml = "0.8.19"
-serde = "1.0"
 
 [workspace.dependencies]
 capnp = "0.20.3"
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1.43.0", features = ["full"] }
 serde_json = "1.0"
+serde = "1.0"
 
 [build-dependencies]
 capnpc = "0.20"

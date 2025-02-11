@@ -12,6 +12,7 @@ pub enum Error {
     Indexer(IndexerError),
     LLM(LLMError),
     TomlParse(TomlError),
+    FileNotFound(String),
 }
 
 impl Display for Error {
@@ -20,6 +21,7 @@ impl Display for Error {
             Error::Indexer(err) => write!(f, "{err}"),
             Error::LLM(err) => write!(f, "{err}"),
             Error::TomlParse(err) => write!(f, "{err}"),
+            Error::FileNotFound(file_name) => write!(f, "File not found: {file_name}"),
         }
     }
 }
